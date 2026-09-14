@@ -1,4 +1,6 @@
-﻿void ProjectStructureDemo()
+﻿using CSharpBasicsAssignment;
+
+void ProjectStructureDemo()
 {
     Console.WriteLine("=== PART A: Project & Structure ===");
 
@@ -329,40 +331,4 @@ int FindSingleNumber(int[] nums)
     // Explanation:
     // 4 ^ 1 ^ 2 ^ 1 ^ 2 = 4 ^ (1 ^ 1) ^ (2 ^ 2) = 4 ^ 0 ^ 0 = 4
     // 7 ^ 3 ^ 5 ^ 4 ^ 5 ^ 3 ^ 4 = 7 ^ (3 ^ 3) ^ (4 ^ 4) ^  (5 ^ 5)  = 7 ^ 0 ^ 0 ^ 0 = 7
-}
-
-struct Point 
-{
-    public int X;
-    public int Y;
-}
-
-class Order
-{
-    public int OrderId;
-    public string CustomerName;
-    public int Quantity;
-    public decimal UnitPrice;
-    public decimal TotalPrice;
-    public bool IsPaid;
-    public double DiscountPercent;
-    public string ShippingCity;
-    public char Priority;
-    public long ItemCode;
-
-    public void CalculateTotal() =>
-        TotalPrice = Quantity * UnitPrice * (decimal)(1 - DiscountPercent / 100);
-
-    public void PrintSummary() => 
-        Console.WriteLine($"Order #{OrderId} | Customer: {CustomerName} | Total: {TotalPrice:C} | Paid: {IsPaid}");
-}
-
-class Scope
-{
-    private int x = 7; // private field
-
-    public void ReadFieldFromMethodA() =>
-        Console.WriteLine($"MethodA reading x: {x}"); 
-    public void ReadFieldFromMethodB() =>
-        Console.WriteLine($"MethodB reading x: {x}"); 
 }
