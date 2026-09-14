@@ -314,6 +314,23 @@ void RunScopeAndOperatorsDemo()
     #endregion
 }
 
+int FindSingleNumber(int[] nums)
+{
+    int result = 0;
+    foreach (int num in nums)
+        result ^= num;
+
+    return result;
+
+    // Basic operation of XOR:
+    // 1. a ^ 0 = a
+    // 2. a ^ a = 0
+
+    // Explanation:
+    // 4 ^ 1 ^ 2 ^ 1 ^ 2 = 4 ^ (1 ^ 1) ^ (2 ^ 2) = 4 ^ 0 ^ 0 = 4
+    // 7 ^ 3 ^ 5 ^ 4 ^ 5 ^ 3 ^ 4 = 7 ^ (3 ^ 3) ^ (4 ^ 4) ^  (5 ^ 5)  = 7 ^ 0 ^ 0 ^ 0 = 7
+}
+
 struct Point 
 {
     public int X;
