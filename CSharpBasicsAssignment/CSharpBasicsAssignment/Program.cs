@@ -238,6 +238,82 @@ void RunValueVsReferenceDemo()
     #endregion
 }
 
+void RunScopeAndOperatorsDemo()
+{
+    #region  D1: Scope
+
+    Scope demo = new Scope();
+    demo.ReadFieldFromMethodA(); 
+    demo.ReadFieldFromMethodB(); 
+
+    void LocalScope()
+    {
+        int y = 20; // local variable
+        Console.WriteLine($"y = {y}"); 
+    }
+    // Console.WriteLine($"y = {y}"); // not allowed, will give compile error because y is out of scope.
+
+    Console.WriteLine("____________________________________________________");
+
+    for (int i = 0; i < 3; i++)
+    {
+        int result = i * 10;
+        Console.WriteLine($"i = {i}, result = {result}"); // allowed
+    }
+
+    // Console.WriteLine($"i = {i}, result = {result}"); // not allowed, will give compile error because i and result are out of scope
+    // Reason: Both 'i'  and 'result' are defined within the for loop's braces { }
+    // Once the loop finishes, and all variables defined within it are automatically destroyed.
+
+    #endregion
+
+    Console.WriteLine("____________________________________________________");
+
+    #region D2: Compound Assignment Operators
+
+    int total = 100;
+
+    total += 20;
+    Console.WriteLine($"total = {total}"); // 120
+
+    total -= 30;
+    Console.WriteLine($"total = {total}"); // 90
+
+    total *= 2;
+    Console.WriteLine($"total = {total}"); // 180
+
+    total /= 4;
+    Console.WriteLine($"total = {total}"); // 45
+
+    total %= 9;
+    Console.WriteLine($"total = {total}"); // 0
+
+    // total += 20;   equivalent to   total = total + 20;
+
+    #endregion
+
+    Console.WriteLine("____________________________________________________");
+
+    #region D3: Bitwise operators
+
+    int a = 12; // binary: 1100
+    int b = 10; // binary: 1010
+
+    int andResult = a & b; // AND: 1100 & 1010 = 1000 = 8
+    int orResult = a | b; // OR:  1100 | 1010 = 1110 = 14
+    int xorResult = a ^ b; // XOR: 1100 ^ 1010 = 0110 = 6
+
+    Console.WriteLine($"a & b = {andResult}"); 
+    Console.WriteLine($"a | b = {orResult}");
+    Console.WriteLine($"a ^ b = {xorResult}");
+
+    // The difference between & (bitwise) and && (logical) in an if-condition:
+    // When using && in a condition, if the left side evaluates to false, the compiler does not evaluate the right side (short-circuit)
+    // When using & always evaluates both sides, even if the left side is false.
+
+    #endregion
+}
+
 struct Point 
 {
     public int X;
@@ -262,4 +338,14 @@ class Order
 
     public void PrintSummary() => 
         Console.WriteLine($"Order #{OrderId} | Customer: {CustomerName} | Total: {TotalPrice:C} | Paid: {IsPaid}");
+}
+
+class Scope
+{
+    private int x = 7; // private field
+
+    public void ReadFieldFromMethodA() =>
+        Console.WriteLine($"MethodA reading x: {x}"); 
+    public void ReadFieldFromMethodB() =>
+        Console.WriteLine($"MethodB reading x: {x}"); 
 }
