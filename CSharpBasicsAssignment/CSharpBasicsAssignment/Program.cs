@@ -167,3 +167,99 @@ void RunTypesDemo()
 
     Console.WriteLine("____________________________________________________");
 }
+
+void RunValueVsReferenceDemo()
+{
+    #region Experiment 1: struct copy semantics
+
+    // When p1 is assigned to p2, the values of p1 are copied into p2 => p1 and p2 are two independent copies.
+    Point p1 = new Point { X = 1, Y = 1 };
+    Point p2 = p1;
+
+    p2.X = 5; // Changing p2 but not affect p1 because p2 has its own copy of the data.
+
+    Console.WriteLine($"p1.X = {p1.X}"); // will print 1, because p1 is unchanged.
+    Console.WriteLine($"p2.X = {p2.X}"); // will print 5, because p2 was modified independently.
+
+    #endregion
+
+    Console.WriteLine("____________________________________________________");
+
+    #region Experiment 2: class reference semantics (Order)
+
+    Order o1 = new Order
+    {
+        OrderId = 1001,
+        CustomerName = "Ahmed",
+        Quantity = 3,
+        UnitPrice = 150.0m,
+        TotalPrice = 0m, 
+        IsPaid = false,
+        DiscountPercent = 10.0,
+        ShippingCity = "Giza",
+        Priority = 'H',
+        ItemCode = 5551234567L
+    };
+
+    o1.CalculateTotal();
+    Order o2 = o1;
+
+    o2.IsPaid = true;
+
+    Console.WriteLine($"o1.IsPaid = {o1.IsPaid}"); // will print true, because o1 and o2 refer to the same object in memory.
+    Console.WriteLine($"o2.IsPaid = {o2.IsPaid}"); // will print true
+
+    Console.WriteLine("____________________________________________________");
+
+    object boxedOrder = o1; // Boxing: the reference to the Order object is stored in an object variable (on the heap).    
+
+    Order o3 = (Order)boxedOrder; // explicit cast 
+
+    Console.WriteLine($"{object.ReferenceEquals(o1, o3)}"); // True — Same Reference.
+
+    o2.PrintSummary();
+
+    #endregion
+
+    Console.WriteLine("____________________________________________________");
+
+    #region Part C Summary
+
+    // Value types (like struct and primitives such as int, bool, double) are stored on the Stack, their data lives right there in the variable itself.
+    // Reference types (like class , interface) have their actual data stored on the Heap, while the variable on the Stack only holds a reference (an address) pointing to that heap location.
+
+
+    // Assigning a value type ("p2 = p1"), the actual data is copied, creating two fully independent variables that can change without affecting each other.
+    // Assigning a reference type ("o2 = o1"), only the reference is copied — both variables is pointing at the exact same object on the heap, so changing one through either variable changes what both of them see.    
+
+    // Storing a reference type inside an "object" variable does not create a new object because Order is already a reference type
+    // the object variable just holds a copy of the same address, not a new copy of the data
+
+    #endregion
+}
+
+struct Point 
+{
+    public int X;
+    public int Y;
+}
+
+class Order
+{
+    public int OrderId;
+    public string CustomerName;
+    public int Quantity;
+    public decimal UnitPrice;
+    public decimal TotalPrice;
+    public bool IsPaid;
+    public double DiscountPercent;
+    public string ShippingCity;
+    public char Priority;
+    public long ItemCode;
+
+    public void CalculateTotal() =>
+        TotalPrice = Quantity * UnitPrice * (decimal)(1 - DiscountPercent / 100);
+
+    public void PrintSummary() => 
+        Console.WriteLine($"Order #{OrderId} | Customer: {CustomerName} | Total: {TotalPrice:C} | Paid: {IsPaid}");
+}
